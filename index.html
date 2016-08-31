@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script language="javascript">
+        var xmlhttp;
+
+        function getresult() {
+            xmlhttp = new XMLHttpRequest();
+            var a = document.getElementById("a");
+            var b = document.getElementById("b");
+            var c = document.getElementById("c");
+           var t= '{"a":'+a.value+',"b":'+b.value+',"c":'+c.value+'}';//send parameters as json object
+
+            var url = "http://localhost:8080/WebService-RS/webresources/resolve/"+ t+"/method" ;
+            xmlhttp.open('GET',url,true);
+            xmlhttp.send(null);
+            
+            xmlhttp.onreadystatechange = function() {
+
+                var res =  document.getElementById("res");
+               
+                if (xmlhttp.readyState == 4) {
+
+                    if ( xmlhttp.status == 200) {
+                        var result = eval( "(" +  xmlhttp.responseText + ")");
+                        res.value="x1="+result.x1 +" , x2="+result.x2;
+                    }
+                    else {
+                        alert("Error ->" + xmlhttp.responseText+xmlhttp.status);
+                }
+
+                }
+            };
+        }
+    </script>
+</head>
+<body>
+<center>
+<h1>Call Restful Web Service </h1>
+<h3>ax2+bx+c=0</h3>
+<form>
+<table>
+    <tr>
+        <td>Enter a :  </td>
+        <td><input type="text" id="a" size="10"/>
+    </tr>
+    <tr>
+        <td>Enter b :  </td>
+        <td><input type="text" id="b" size="10"/> </td>
+    </tr>
+
+    <tr>
+        <td>Enter c : </td>
+        <td><input type="text" id="c" size="10"/> </td>
+    </tr>
+   
+       
+   
+    <tr>
+        <td>The result is : </td>
+        <td><output id="res"> </output> </td>
+    </tr>
+</table>
+ <input type="button" value="Get Result" onclick="getresult()"/>
+</form>
+</center>
+</body>
+</html>
+
+
+
